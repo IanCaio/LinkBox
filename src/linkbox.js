@@ -34,6 +34,8 @@ linkBox.prototype.createBox = function() {
 	description_box.appendChild(description_paragraph);
 	document.body.appendChild(description_box);
 
+	description_box.style.display = "none";
+
 	return description_box;
 };
 
@@ -63,9 +65,10 @@ linkBox.prototype.hideDescription = function(e) {
 
 //Search the document for link elements with the linkClass and set up a listener
 linkBox.prototype.setUpListeners = function(){
-	//>>>LATER: Requires a polyfill for older browsers
+	//>>>LATER: Requires a polyfill for browsers older than IE9
 	var el = document.getElementsByClassName(this.options.linkClass);
 	for(var i = 0; i < el.length; i++){
+		//>>>LATER: Requires a polyfill for browsers older than IE9
 		el[i].addEventListener('mouseover', this.showDescription.bind(this), false);
 		el[i].addEventListener('mouseout', this.hideDescription.bind(this), false);
 	}
