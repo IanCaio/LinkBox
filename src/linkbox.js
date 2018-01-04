@@ -30,7 +30,7 @@ linkBox.prototype.showDescription = function(e) {
 	//Create the div element that holds the description
 	var description_box = document.createElement("DIV");
 	//>>>LATER: Bind the function so we can access the description box class in the function object and use it instead!
-	description_box.className += " linkbox-description";
+	description_box.className += " " + this.options.linkDescriptionClass;
 	var description_paragraph = document.createElement("P");
 
 	//Puts random text for testing
@@ -59,8 +59,8 @@ linkBox.prototype.setUpListeners = function(){
 	//>>>LATER: Requires a polyfill for older browsers
 	var el = document.getElementsByClassName(this.options.linkClass);
 	for(var i = 0; i < el.length; i++){
-		el[i].addEventListener('mouseover', this.showDescription, false);
-		el[i].addEventListener('mouseout', this.hideDescription, false);
+		el[i].addEventListener('mouseover', this.showDescription.bind(this), false);
+		el[i].addEventListener('mouseout', this.hideDescription.bind(this), false);
 	}
 };
 
