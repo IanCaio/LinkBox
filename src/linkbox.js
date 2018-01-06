@@ -49,9 +49,27 @@ linkBox.prototype.showDescription = function(e) {
 	this.boxElement.style.display = "block";
 
 	//Position element
-	var posRect = e.target.getBoundingClientRect();
-	this.boxElement.style.top = (posRect.y + e.target.offsetHeight + 1) + "px";
-	this.boxElement.style.left = (posRect.x - this.boxElement.offsetWidth/2 + e.target.offsetWidth/2) + "px";
+	var linkRect = e.target.getBoundingClientRect();
+	//Calculates position relative to the viewport (doesn't consider scroll)
+	var boxElementViewportPos = { top:0, left:0 };
+	boxElementViewportPos.top = (linkRect.y + e.target.offsetHeight + 1);
+	boxElementViewportPos.left = (linkRect.x - this.boxElement.offsetWidth/2 + e.target.offsetWidth/2);
+
+	//Check if the position is beyound the borders of the viewport
+	//Goes beyond left border
+	if(boxElementViewportPos.left < 0){
+		boxElementViewportPos.left = 0;
+	//Goes beyond right border
+	} else if ((boxElementViewportPos.left + this.boxElement.offsetWidth) > viewportPolyfix.width()){
+		boxElementViewportPos.left = (viewportPolyfix.width() - this.boxElement.offsetWidth);
+	}
+	//Goes beyond lower border (no need to test for upper border since it's impossible for this to happen)
+	if((boxElementViewportPos.top + this.boxElement.offsetHeight) > viewportPolyfix.height()){
+		boxElementViewportPos.top = (linkRect.y - 1 - this.boxElement.offsetHeight);
+	}
+	//Translate the viewport position to absolute position and change the CSS style of the boxElement
+	this.boxElement.style.top = (boxElementViewportPos.top + scrollPolyfix.scrollY()) + "px";
+	this.boxElement.style.left = (boxElementViewportPos.left + scrollPolyfix.scrollX()) + "px";
 };
 
 //Hide the box with the link description
@@ -71,6 +89,47 @@ linkBox.prototype.setUpListeners = function(){
 		//>>>LATER: Requires a polyfill for browsers older than IE9
 		el[i].addEventListener('mouseover', this.showDescription.bind(this), false);
 		el[i].addEventListener('mouseout', this.hideDescription.bind(this), false);
+	}
+};
+
+//Polyfix for viewportWidth and viewportHeight
+var viewportPolyfix = {
+	width: function(){
+		return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+	},
+	height: function(){
+		return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+	}
+};
+
+//Polyfix for scrollX, scrollY, scrollMaxX and scrollMaxY
+var scrollPolyfix = {
+	scrollX: function(){
+		var supportPageOffset = window.pageXOffset !== undefined;
+		var isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
+
+		return (supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft);
+	},
+
+	scrollY: function(){
+		var supportPageOffset = window.pageXOffset !== undefined;
+		var isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
+
+		return (supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop);
+	},
+
+	scrollMaxX: function(){
+		var scrollWidth = document.documentElement.scrollWidth || document.body.scrollWidth;
+		var viewportWidth = viewportPolyfix.width();
+
+		return (window.scrollMaxX || (scrollWidth - viewportWidth - 1));
+	},
+
+	scrollMaxY: function(){
+		var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+		var viewportHeight = viewportPolyfix.height();
+
+		return (window.scrollMaxY || (scrollHeight - viewportHeight));
 	}
 };
 
