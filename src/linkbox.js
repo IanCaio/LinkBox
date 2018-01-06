@@ -52,8 +52,8 @@ linkBox.prototype.showDescription = function(e) {
 	var linkRect = e.target.getBoundingClientRect();
 	//Calculates position relative to the viewport (doesn't consider scroll)
 	var boxElementViewportPos = { top:0, left:0 };
-	boxElementViewportPos.top = (linkRect.y + e.target.offsetHeight + 1);
-	boxElementViewportPos.left = (linkRect.x - this.boxElement.offsetWidth/2 + e.target.offsetWidth/2);
+	boxElementViewportPos.top = (linkRect.top + e.target.offsetHeight + 1);
+	boxElementViewportPos.left = (linkRect.left - this.boxElement.offsetWidth/2 + e.target.offsetWidth/2);
 
 	//Check if the position is beyound the borders of the viewport
 	//Goes beyond left border
@@ -65,7 +65,7 @@ linkBox.prototype.showDescription = function(e) {
 	}
 	//Goes beyond lower border (no need to test for upper border since it's impossible for this to happen)
 	if((boxElementViewportPos.top + this.boxElement.offsetHeight) > viewportPolyfix.height()){
-		boxElementViewportPos.top = (linkRect.y - 1 - this.boxElement.offsetHeight);
+		boxElementViewportPos.top = (linkRect.top - 1 - this.boxElement.offsetHeight);
 	}
 	//Translate the viewport position to absolute position and change the CSS style of the boxElement
 	this.boxElement.style.top = (boxElementViewportPos.top + scrollPolyfix.scrollY()) + "px";
