@@ -39,21 +39,51 @@ linkBox.prototype.createBox = function() {
 	return description_box;
 };
 
+//Function that will iterate through the parents of a element looking for the first one
+//that has the identifying class
+linkBox.prototype.getLinkboxTarget =  function (starting_element) {
+	var current_element = starting_element;
+
+	if (elementHasClass(current_element, this.options.linkClass)) {
+		return current_element;
+	} else {
+		while (current_element.parentNode) {
+			current_element = current_element.parentNode;
+			if (elementHasClass(current_element, this.options.linkClass)) {
+				return current_element;
+			}
+		}
+
+		return null;
+	}
+};
+
 //Show the box with the link description
-linkBox.prototype.showDescription = function(e) {
+linkBox.prototype.showDescription = function(event) {
+	//The linkbox-link element target (not the one that triggered the event, but the link element)
+	//For IE 6-8 Compatibility
+	var linkbox_target = event.target || event.srcElement;
+	//Start bubbling up until the linkbox target is reached
+	linkbox_target = this.getLinkboxTarget(linkbox_target);
+	//If we didn't reach any linkbox_target we have a bug, log it to console and return
+	if(linkbox_target == null) {
+		console.log("Linkbox [ERROR]: Didn't find a linkbox-link element in the event tree.");
+		return;
+	}
+
 	//Write link href
-	this.boxElement.getElementsByTagName("P")[0].innerHTML = e.target.href;
+	this.boxElement.getElementsByTagName("P")[0].innerHTML = linkbox_target.href;
 
 	//Display element
 	//We need to display the element before calculating its position, otherwise it will consider the element doesn't have any width or height
 	this.boxElement.style.display = "block";
 
 	//Position element
-	var linkRect = e.target.getBoundingClientRect();
+	var linkRect = linkbox_target.getBoundingClientRect();
 	//Calculates position relative to the viewport (doesn't consider scroll)
 	var boxElementViewportPos = { top:0, left:0 };
-	boxElementViewportPos.top = (linkRect.top + e.target.offsetHeight + 1);
-	boxElementViewportPos.left = (linkRect.left - this.boxElement.offsetWidth/2 + e.target.offsetWidth/2);
+	boxElementViewportPos.top = (linkRect.top + linkbox_target.offsetHeight + 1);
+	boxElementViewportPos.left = (linkRect.left - this.boxElement.offsetWidth/2 + linkbox_target.offsetWidth/2);
 
 	//Check if the position is beyound the borders of the viewport
 	//Goes beyond left border
@@ -90,6 +120,18 @@ linkBox.prototype.setUpListeners = function(){
 		el[i].addEventListener('mouseover', this.showDescription.bind(this), false);
 		el[i].addEventListener('mouseout', this.hideDescription.bind(this), false);
 	}
+};
+
+
+/*		POLYFIXES AND UTILITIES			*/
+
+//Polyfix for checking if an element is from a class
+var elementHasClass = function (element, classname) {
+	if (element.classList) {
+		return element.classList.contains(classname);
+	}
+	//For IE compatibility
+	return (' ' + element.className + ' ').indexOf(' ' + classname + ' ') > -1;
 };
 
 //Polyfix for viewportWidth and viewportHeight
