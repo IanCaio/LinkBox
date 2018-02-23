@@ -1,0 +1,20 @@
+.linkbox-link {
+	color: #505050;
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-decoration-color: #202020;
+}
+
+#linkbox-description {
+	position: absolute;
+	background-color: #DDDDDD;
+	border: 1px solid #A0A0A0;
+	border-radius: 10px 10px 10px 10px;
+	padding: 6px 10px 6px 10px;
+}
+#linkbox-description p {
+	margin: 0 0 0 0;
+	font-size: 0.7em;
+	color: #7070FF;
+	text-decoration: underline;
+}

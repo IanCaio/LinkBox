@@ -1,0 +1,66 @@
+---
+---
+
+*, *:before, *:after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+@font-face {
+	font-family: GomariceRockinRecord;
+	src: url('fonts/GomariceRockinRecord.ttf');
+}
+@font-face {
+	font-family: Hockey;
+	src: url('fonts/Hockey.ttf');
+}
+@font-face {
+	font-family: ToThePoint;
+	src: url('fonts/ToThePoint.ttf');
+}
+
+.header {
+	width: 100%;
+	height: 60vh;
+	padding: 2% 2%;
+	background: url('imgs/BG.jpg');
+
+	.title {
+		width: 30%;
+		height: 100%;
+		background: rgba(255, 255, 255, 0.5);
+		padding: 20vh 2%;
+		text-align: center;
+		font-family: GomariceRockinRecord;
+		font-size: 6vh;
+		color: lighten(black, 20%);
+	}
+}
+
+.recipes {
+	width: 100%;
+	border-left: 15vw solid lightgrey;
+	padding: 5vw 5vh;
+
+	.recipe {
+		.title {
+			font-family: Hockey;
+			font-size: 8vh;
+			text-align: center;
+			margin-bottom: 5vh;
+		}
+		.body {
+			width: 50%;
+			p {
+				margin-bottom: 2vh;
+			}
+			font-family: ToThePoint;
+			font-size: 4vh;
+		}
+		img {
+			width: 40%;
+			float: right;
+		}
+	}
+}

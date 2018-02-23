@@ -1,4 +1,4 @@
-# LinkBox (WIP)
+# LinkBox
 ## Displaying the link target easily
 
 With LinkBox you can easily display the target of your links in your webpages, by just including an extra class on them.
@@ -13,3 +13,7 @@ Link the CSS stylesheet, the script and add the "linkbox-link" class to your lin
 ...
 <script type="text/javascript" src="res/scripts/linkbox.js"></script>
 ```
+
+### Live demo:
+
+Check a live demonstration page using LinkBox [here](https://iancaio.github.io/LinkBox/)!
