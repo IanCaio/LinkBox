@@ -1,8 +1,12 @@
 # LinkBox
 ## Displaying the link target easily
 
-With LinkBox you can easily display the target of your links in your webpages, by just including an extra class on them.
-Link the CSS stylesheet, the script and add the "linkbox-link" class to your links, the script will do the rest!
+LinkBox allows you to add a pop up when the user hovers a link, containing the URL he is browsing to when clicking it.
+It's as simple as adding a class to the link elements!
+
+You just need to link the CSS stylesheet (which you can edit to your taste), add the script in the bottom of your webpage
+and add the "linkbox-link" class to the links where you want the pop up being displayed. The script will take care of
+the rest!
 
 ### Example:
 
@@ -14,6 +18,6 @@ Link the CSS stylesheet, the script and add the "linkbox-link" class to your lin
 <script type="text/javascript" src="res/scripts/linkbox.js"></script>
 ```
 
-### Live demo:
+### Live demonstration:
 
-Check a live demonstration page using LinkBox [here](https://iancaio.github.io/LinkBox/)!
+Check a live demonstration simple page using LinkBox [here](https://iancaio.github.io/LinkBox/)!
