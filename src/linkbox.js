@@ -14,7 +14,7 @@ linkBox.prototype.defaults = {
 //Ignore any extra options besides the ones defined in the defaults, but change the values
 //to match the given options
 linkBox.prototype.applyOptions = function(options){
-	var returnedOptions = this.defaults;
+	var returnedOptions = Object.assign({}, this.defaults);
 	for(var opt in this.defaults){
 		if(options.hasOwnProperty(opt)){
 			returnedOptions[opt] = options[opt];
